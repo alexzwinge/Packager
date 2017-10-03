@@ -58,21 +58,18 @@ namespace Packager
         {
             get
             {
-                string video;
-
-                try
-                {
-                    video = Path.GetFileNameWithoutExtension(Game.GetVideoPath());
-                }
-                catch (Exception e)
-                {
-                    System.Windows.Forms.MessageBox.Show("Error opening video for rom " + Game.Title);
-                    throw e;
-                }
+                string video = Path.GetFileNameWithoutExtension(Game.GetVideoPath());
 
                 if (String.IsNullOrEmpty(video)) {
                     return "";
                 }
+
+                if (!File.Exists(Game.GetVideoPath()))
+                {
+                    Game.VideoPath = "";
+                    return this.Video;
+                }
+
 
                 if (video.IndexOf(" (Video Snap)") == -1) {
                     return "WRONGFORMAT";
@@ -83,26 +80,7 @@ namespace Packager
 
             set
             {
-                 
-
-                FileInfo video;
-
-                try
-                {
-                    video = new FileInfo(Game.GetVideoPath());
-                }
-                catch (Exception e)
-                {
-                    System.Windows.Forms.MessageBox.Show("Error opening video for rom " + Game.Title);
-                    throw e;
-                }
-
-                if (video == null)
-                {
-                    Game.VideoPath = "";
-                    return;
-                }
-
+                FileInfo video = new FileInfo(Game.GetVideoPath());
 
                 Move(video, value + " (Video Snap)");
                 Game.VideoPath = video.FullName;

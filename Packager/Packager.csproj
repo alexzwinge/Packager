@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="IRom.cs" />
     <Compile Include="Rom.cs" />
+    <Compile Include="RomMame.cs" />
     <Compile Include="RomToc.cs" />
     <Compile Include="GentrificationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

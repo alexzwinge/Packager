@@ -14,9 +14,15 @@ namespace Packager
         {
             Game = game;
 
-            if (Path.GetExtension(Game.ApplicationPath).ToLower() == ".cue")
+            string ext = Path.GetExtension(Game.ApplicationPath).ToLower();
+
+            if (ext == ".cue" || ext == ".gdi")
             {
                 Rom = new RomToc(Game);
+            }
+            else if (ext == ".zip" || ext == ".chd")
+            {
+                Rom = new RomMame(Game);
             }
             else
             {
@@ -26,12 +32,6 @@ namespace Packager
 
         public void Gentrify()
         {
-
-            if (!IsValidPlatform(Game.Platform))
-            {
-                return;
-            }
-
             if (Rom.Folder != Rom.Name)
             {
                 Rom.Folder = Rom.Name;
@@ -46,46 +46,6 @@ namespace Packager
             {
                 Rom.Video = Rom.Name;
             }
-        }
-
-        private bool IsValidPlatform(string platform)
-        {
-            // if (platform == "Arcade") { return true; }
-            // if (platform == "SNK Neo Geo") { return true; }
-
-            if (platform == "Nintendo Entertainment System") { return true; }
-            if (platform == "Super Nintendo Entertainment System") { return true; }
-            if (platform == "Nintendo 64") { return true; }
-            if (platform == "Nintendo GameCube") { return true; }
-            if (platform == "Nintendo Wii") { return true; }
-            if (platform == "Nintendo Wii U") { return true; }
-            if (platform == "Nintendo Game Boy") { return true; }
-            if (platform == "Nintendo Game Boy Color") { return true; }
-            if (platform == "Nintendo Game Boy Advance") { return true; }
-            if (platform == "Nintendo DS") { return true; }
-            if (platform == "Nintendo 3DS") { return true; }
-
-            if (platform == "Sega Genesis") { return true; }
-            if (platform == "Sega CD") { return true; }
-            if (platform == "Sega 32X") { return true; }
-            if (platform == "Sega Saturn") { return true; }
-            // if (platform == "Sega Dreamcast") { return true; }
-
-            if (platform == "Sony Playstation") { return true; }
-            if (platform == "Sony Playstation 2") { return true; }
-            if (platform == "Sony Playstation 3") { return true; }
-            if (platform == "Sony PSP") { return true; }
-            if (platform == "Sony Vita") { return true; }
-
-            if (platform == "TurboGrafx-16") { return true; }
-            if (platform == "TurboGrafx-CD") { return true; }
-
-            if (platform == "3DO Interactive Multiplayer") { return true; }
-            // if (platform == "Philips CD-i") { return true; }
-            if (platform == "WoW Action Max") { return true; }
-
-
-            return false;
         }
 
         private string Md5HashFile(string filePath)
