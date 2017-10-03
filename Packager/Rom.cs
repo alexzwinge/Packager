@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Unbroken.LaunchBox.Plugins.Data;
 
@@ -7,15 +8,18 @@ namespace Packager
 {
     class Rom
     {
-        protected readonly IGame Game;
         protected readonly DirectoryInfo RomFolder;
 
-        public string Name;
+        private IGame _Game;
+        public IGame Game => _Game;
+
+        private string _Name;
+        public string Name => _Name;
 
         public Rom(IGame game)
         {
-            Game = game;
-            Name = FsSafeName(Game.Title);
+            _Game = game;
+            _Name = FsSafeName(Game.Title);
 
             try
             {
@@ -161,14 +165,45 @@ namespace Packager
 
         protected string ExtractDiscNumber(string filename)
         {
-            int discnum = int.Parse(Regex.Match(filename, @"\(Disc (\d+)\)").Groups[1].Value);
-            return discnum.ToString("D2");
+            string discnum = Regex.Match(filename, @"\(Disc (\d+)\)").Groups[1].Value;
+
+            if (String.IsNullOrEmpty(discnum))
+            {
+                return null;
+            }
+
+            return int.Parse(discnum).ToString("D2");
+        }
+
+        protected string ExtracTrackNumber(string filename)
+        {
+            string tracknum = Regex.Match(filename, @"\(Track (\d+)\)").Groups[1].Value;
+
+            if (String.IsNullOrEmpty(tracknum))
+            {
+                return null;
+            }
+
+            return int.Parse(tracknum).ToString("D2");
         }
 
         protected string ExtractMeta(string filename)
         {
-            string name = ExtractFileName(filename);
-            return Regex.Replace(filename, "^" + name, "").Trim();
+            List<string> meta = new List<string>();
+            string discnum = ExtractDiscNumber(filename);
+            string traknum = ExtracTrackNumber(filename);
+
+            if (!String.IsNullOrEmpty(discnum))
+            {
+                meta.Add("(Disc " + discnum + ")");
+            }
+
+            if (!String.IsNullOrEmpty(traknum))
+            {
+                meta.Add("(Track " + traknum + ")");
+            }
+
+            return String.Join(" ", meta);
         }
 
         protected FileInfo RenameRom(string romfile, string targetname)
