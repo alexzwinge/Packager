@@ -138,7 +138,7 @@ namespace Packager
 
         protected string ExtractFileName(string filename)
         {
-            return Regex.Replace(filename, @"\(.*\)", "").Trim();
+            return Regex.Replace(filename, @"\((Disc|Track) \d+\)", "").Trim();
         }
 
         protected string ExtractDiscNumber(string filename)
