@@ -1,17 +1,13 @@
-﻿using Unbroken.LaunchBox.Plugins.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Packager
 {
     interface IRom
     {
-        IGame Game { get; }
-
-        string Name { get; }
-
-        string Folder { get; set; }
-
-        string File { get; set; }
-
-        string Video { get; set; }
+        void Package();
     }
 }

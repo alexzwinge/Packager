@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using Unbroken.LaunchBox.Plugins;
 using Unbroken.LaunchBox.Plugins.Data;
 
-namespace Packager
+namespace Packager.Menu
 {
-    class ContextMenuItem : IGameMenuItemPlugin
+    class Context : IGameMenuItemPlugin
     {
         public bool SupportsMultipleGames => true;
 
@@ -31,13 +31,11 @@ namespace Packager
         public void OnSelected(IGame selectedGame)
         {
 
-            var do_cotinue = MessageBox.Show(String.Format("Package {0}?", selectedGame.Title),
-                "", MessageBoxButtons.YesNo);
+            DialogResult do_continue = MessageBox.Show("Package " + selectedGame.Title + "? ", "", MessageBoxButtons.YesNo);
 
-            if (do_cotinue == DialogResult.No) { return; }
+            if (do_continue == DialogResult.No) { return; }
 
-            var package = new PackagedRom(selectedGame);
-            package.Gentrify();
+            Dispatch.Gentrify(selectedGame);
 
             MessageBox.Show("All Done!");
         }
@@ -45,18 +43,16 @@ namespace Packager
         public void OnSelected(IGame[] selectedGames)
         {
 
-            var do_cotinue = MessageBox.Show(String.Format("Package {0} roms?", selectedGames.Length),
-                "", MessageBoxButtons.YesNo);
+            DialogResult do_continue = MessageBox.Show("Package " + selectedGames.Length + " roms ?", "", MessageBoxButtons.YesNo);
 
-            if (do_cotinue == DialogResult.No) { return; }
+            if (do_continue == DialogResult.No) { return; }
 
-            foreach (var game in selectedGames)
+            foreach (IGame game in selectedGames)
             {
-                var package = new PackagedRom(game);
-                package.Gentrify();
+                Dispatch.Gentrify(game);
             }
 
-            MessageBox.Show(String.Format("All Done! {0} roms have been packaged.", selectedGames.Length));
+            MessageBox.Show("All Done! " + selectedGames.Length + " roms have been packaged.");
         }
     }
 }
