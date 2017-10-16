@@ -19,7 +19,7 @@ namespace Packager
             {
                 type = Type.GetType("Packager.Platforms.Generic");
             }
-            System.Windows.Forms.MessageBox.Show(type.ToString());
+
             IRom rom = (IRom)Activator.CreateInstance(type, game);
 
             rom.Package();
