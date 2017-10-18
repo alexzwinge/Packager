@@ -42,7 +42,7 @@ namespace Packager.Types
             string traknum = GetTrackNumber(filename);
             string newname = Name + CreateDiscMeta(discnum) + CreateTrackMeta(traknum);
 
-            FSOperations.Move(appfile, newname);
+            FSOperations.Move(appfile, Container.FullName, newname);
 
             app.ApplicationPath = appfile.FullName;
         }

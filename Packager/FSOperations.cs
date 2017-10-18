@@ -21,10 +21,10 @@ namespace Packager
             fsObj.MoveTo(fsObj.Parent.FullName + "\\" + target);
         }
 
-        public static void Move(FileInfo fsObj, string target)
+        public static void Move(FileInfo fsObj, string target, string name)
         {
             fsObj.MoveTo(fsObj.Directory.FullName + "\\tempmove" + fsObj.Extension);
-            fsObj.MoveTo(fsObj.Directory.FullName + "\\" + target + fsObj.Extension.ToLower());
+            fsObj.MoveTo(target + "\\" + name + fsObj.Extension.ToLower());
         }
 
     }

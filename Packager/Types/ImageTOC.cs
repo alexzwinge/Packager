@@ -83,7 +83,7 @@ namespace Packager.Types
             string name = Name + CreateDiscMeta(discnum) + CreateTrackMeta(traknum);
             FileInfo file = new FileInfo(imagepath);
 
-            FSOperations.Move(file, name);
+            FSOperations.Move(file, Container.FullName, name);
 
             return file.Name;
         }

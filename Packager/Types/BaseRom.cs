@@ -61,7 +61,7 @@ namespace Packager.Types
             FileInfo rom = new FileInfo(Game.ApplicationPath);
             string initialPath = rom.FullName;
 
-            FSOperations.Move(rom, NameMeta);
+            FSOperations.Move(rom, Container.FullName, NameMeta);
 
             Game.ApplicationPath = rom.FullName;
 
@@ -77,7 +77,7 @@ namespace Packager.Types
         protected virtual void RenameVideo()
         {
             FileInfo video = new FileInfo(Game.GetVideoPath());
-            FSOperations.Move(video, Name + " (Video Snap)");
+            FSOperations.Move(video, Container.FullName, Name + " (Video Snap)");
 
             Game.VideoPath = video.FullName;
         }
