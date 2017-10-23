@@ -7,9 +7,9 @@ namespace Packager.Types
 {
     class TOC
     {
-        private string Target;
-        private string Content;
-        private bool Updated;
+        protected string Target;
+        protected string Content;
+        protected bool Updated;
 
         public TOC(string tocpath)
         {

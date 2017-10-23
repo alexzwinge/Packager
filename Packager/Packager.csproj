@@ -63,7 +63,9 @@
     <Compile Include="Types\Cart.cs" />
     <Compile Include="Types\Disk.cs" />
     <Compile Include="Types\Dump.cs" />
+    <Compile Include="Types\GDI.cs" />
     <Compile Include="Types\Image.cs" />
+    <Compile Include="Types\ImageGDI.cs" />
     <Compile Include="Types\ImageTOC.cs" />
     <Compile Include="Types\TOC.cs" />
   </ItemGroup>

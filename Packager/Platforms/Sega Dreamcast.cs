@@ -1,13 +1,12 @@
-﻿using System;
-using Unbroken.LaunchBox.Plugins.Data;
+﻿using Unbroken.LaunchBox.Plugins.Data;
 
 namespace Packager.Platforms
 {
-    class Sega_Dreamcast : Types.ImageTOC, IRom
+    class Sega_Dreamcast : Types.ImageGDI, IRom
     {
         public Sega_Dreamcast(IGame game) : base(game)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

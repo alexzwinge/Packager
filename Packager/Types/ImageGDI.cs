@@ -3,14 +3,11 @@ using Unbroken.LaunchBox.Plugins.Data;
 
 namespace Packager.Types
 {
-    class ImageTOC : Image
+    class ImageGDI : ImageTOC
     {
-        public ImageTOC(IGame game) : base(game)
+        public ImageGDI(IGame game) : base(game)
         {
-            string filename = Path.GetFileNameWithoutExtension(Game.ApplicationPath);
-            string discnum = GetDiscNumber(filename);
 
-            NameMeta = Name + CreateDiscMeta(discnum);
         }
 
         public override void Package()
@@ -34,13 +31,13 @@ namespace Packager.Types
 
             string filename = Path.GetFileNameWithoutExtension(Game.ApplicationPath);
             string discnum = GetDiscNumber(filename);
-            TOC toc = new TOC(Game.ApplicationPath);
+            GDI toc = new GDI(Game.ApplicationPath);
 
             foreach (string image in toc.GetImageList())
             {
                 if (!ImageHasCorrectFileName(image, discnum))
                 {
-                    string name = RenameImage(image, discnum); 
+                    string name = RenameImage(image, discnum);
                     toc.Update(image, name);
                 }
             }
@@ -61,7 +58,7 @@ namespace Packager.Types
 
                 string appfilename = Path.GetFileNameWithoutExtension(app.ApplicationPath);
                 string appdiscnum = GetDiscNumber(appfilename);
-                TOC apptoc = new TOC(app.ApplicationPath);
+                GDI apptoc = new GDI(app.ApplicationPath);
 
                 foreach (string image in apptoc.GetImageList())
                 {
@@ -74,40 +71,6 @@ namespace Packager.Types
 
                 apptoc.Write();
             }
-        }
-
-        protected virtual string RenameImage(string imagename, string discnum)
-        {
-            string imagepath = Container.FullName + "\\" + imagename;
-            string filename = Path.GetFileNameWithoutExtension(imagepath);
-            string traknum = GetTrackNumber(filename);
-            string name = Name + CreateDiscMeta(discnum) + CreateTrackMeta(traknum);
-            FileInfo file = new FileInfo(imagepath);
-
-            FSOperations.Move(file, Container.FullName, name);
-
-            return file.Name;
-        }
-
-        protected virtual bool ImageHasCorrectFileName(string imagename, string discnum)
-        {
-            string imagepath = Container.FullName + "\\" + imagename;
-
-            if (!File.Exists(imagepath))
-            {
-                throw new FileNotFoundException("Could not find " + imagepath + " from TOC for " + Game.Title);
-            }
-
-            string filename = Path.GetFileNameWithoutExtension(imagepath);
-            string traknum = GetTrackNumber(filename);
-            string expectedName = Name + CreateDiscMeta(discnum) + CreateTrackMeta(traknum);
-
-            if (filename != expectedName)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }
