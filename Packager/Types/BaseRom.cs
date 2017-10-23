@@ -45,11 +45,11 @@ namespace Packager.Types
 
             FSOperations.Move(Container, Name);
 
-            Game.MusicPath = Game.MusicPath.Replace(initialPath, Container.FullName);
-            Game.VideoPath = Game.VideoPath.Replace(initialPath, Container.FullName);
-            Game.ManualPath = Game.ManualPath.Replace(initialPath, Container.FullName);
             Game.ApplicationPath = Game.ApplicationPath.Replace(initialPath, Container.FullName);
-
+            Game.VideoPath = Game.VideoPath == null ? null : Game.VideoPath.Replace(initialPath, Container.FullName);
+            Game.MusicPath = Game.MusicPath == null ? null : Game.MusicPath.Replace(initialPath, Container.FullName);
+            Game.ManualPath = Game.ManualPath == null ? null : Game.ManualPath.Replace(initialPath, Container.FullName);
+            
             foreach (IAdditionalApplication app in Game.GetAllAdditionalApplications())
             {
                 app.ApplicationPath = app.ApplicationPath.Replace(initialPath, Container.FullName);
